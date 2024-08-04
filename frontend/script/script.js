@@ -1,16 +1,18 @@
-import getResources from './fetchApi.js';
+import getResources from "./fetchApi.js";
 
 const containerVideos = document.querySelector(".videos__container");
 
 async function buscarEMostrarVideos() {
   try {
     const result = await getResources();
-    console.log(result.videos);
-
-    result.videos.forEach((video) => {
+    console.log(result);
+    result.forEach((video) => {
       containerVideos.innerHTML += `
         <li class="videos__item">
             <iframe src="${video.url}" title="${video.titulo}" frameborder="0" allowfullscreen></iframe>
+            <video width="400" controls autoplay>
+            <source src="${video.url}" type="video/mp4">
+            </video>
             <div class="descricao-video">
                 <h3 class="titulo-video">${video.titulo}</h3>
                 <p class="titulo-canal">${video.descricao}</p>

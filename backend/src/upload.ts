@@ -2,6 +2,8 @@ import { Request, Response, Router } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { pipeline } from 'stream';
+import { readdir } from 'node:fs/promises';
+
 
 const uploadRouter = Router();
 const uploadDirectory = path.join(__dirname, '..', 'uploads');
@@ -13,7 +15,7 @@ const ensureUploadDirectoryExists = () => {
   }
 };
 
-uploadRouter.post('/upload', (req: Request, res: Response) => {
+uploadRouter.post('/upload', async(req: Request, res: Response) => {
   ensureUploadDirectoryExists();
 
   const fileName = req.headers['file-name'] as string;
@@ -34,21 +36,19 @@ uploadRouter.post('/upload', (req: Request, res: Response) => {
   });
 });
 
-uploadRouter.get('/videos', (req: Request, res: Response) => {
+uploadRouter.get('/videos', async(req: Request, res: Response) => {
   ensureUploadDirectoryExists();
 
-  fs.readdir(uploadDirectory, (err, files) => {
-    if (err) {
-      return res.status(500).send('Failed to list files.');
-    }
+  const files=await readdir(uploadDirectory);
+  const videos =  files.map(file => ({
+    url: `http://localhost:3000/uploads/${file}`,
+    // "url": "https://www.youtube.com/embed/y8FeZMv37WU",
+    titulo: file,
+    descricao: 'Descrição do vídeo',
 
-    const videos = files.map(file => ({
-      url: `http://localhost:3000/uploads/${file}`,
-      titulo: file,
-      descricao: 'Descrição do vídeo'  
-     }));
-
-    res.status(200).json({ videos });
-  });
+  }));
+  
+  console.log(videos); 
+  res.status(200).json( videos );
 });
 export default uploadRouter;

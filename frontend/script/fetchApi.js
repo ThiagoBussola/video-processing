@@ -4,7 +4,6 @@ const BASE_URL = "http://localhost:3000/api/videos";
 async function getResources() {
   try {
     const busca = await fetch(`${BASE_URL}`);
-    console.log(busca.json());
     return busca.json();
   } catch(e) {
     console.error('erro', e);
