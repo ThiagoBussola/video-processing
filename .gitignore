@@ -1,4 +1,10 @@
 node_modules
 backend/node_modules
-backend/largeFile.csv
-backend/uploads/*
+backend/src/largeFile.csv
+backend/src/uploads/*
+backend/src/processed/*
+backend/src/*.mp4
+backend/src/*.mov
+backend/src/*.mkv
+backend/src/*.avi
+backend/src/*.csv
