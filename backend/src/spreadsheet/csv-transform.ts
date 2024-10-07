@@ -3,11 +3,6 @@ import { createInterface } from "node:readline";
 import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
-/**
- * Transforms a CSV line by converting the description to uppercase
- * @param line A single line from the CSV file
- * @returns The CSV line with uppercase description
- */
 function transformCsvLine(line: string): string {
   const parts = line.split(',');
   if (parts.length === 4) {
@@ -16,11 +11,6 @@ function transformCsvLine(line: string): string {
   return parts.join(',') + '\n';
 }
 
-/**
- * Processes a CSV file and creates a new CSV with uppercase descriptions
- * @param inputFilePath Path to the input CSV file
- * @param outputFilePath Path to the output CSV file
- */
 async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: string): Promise<void> {
   console.time("csv-processing");
 
@@ -50,7 +40,6 @@ async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: st
   }
 }
 
-// Example usage
 const inputFile = "./largeFile.csv";
 const outputFile = "./largeFile-uppercase.csv";
 processCsvFileUpperCase(inputFile, outputFile);

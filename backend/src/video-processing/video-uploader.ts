@@ -4,7 +4,7 @@ import { readdir } from 'node:fs/promises';
 import express, { NextFunction, Request, Response } from 'express';
 import ffmpeg from 'fluent-ffmpeg';
 import { pipeline } from 'stream';
-import {  ensureDirectoryExists, fileExists, processedDirectory, uploadDirectory } from '../src/utils/util'
+import {  ensureDirectoryExists, fileExists, processedDirectory, uploadDirectory } from '../utils/util'
 
 const uploadRouter = express.Router();
 
