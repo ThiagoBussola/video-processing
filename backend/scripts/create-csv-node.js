@@ -1,6 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const { Readable } = require('stream');
+const {Readable} = require('stream');
 
 const targetSize = 2 * 1024 * 1024 * 1024; // 2GB
 const outputFile = 'largeFile.csv';
