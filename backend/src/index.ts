@@ -1,9 +1,5 @@
 import express from 'express';
-<<<<<<< HEAD
-import uploadRouter from './upload';
-=======
-import uploadRouter from '../video-processing/upload';
->>>>>>> cfe6b21 (refactor: ajustes iniciais no projeto)
+import uploadRouter from './video-processing/upload';
 import path from 'path';
 import cors from "cors";
 
