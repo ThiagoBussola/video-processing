@@ -3,7 +3,7 @@ import { promises } from "node:fs";
 
 // statSync brings the file size in bytes and other info
 
-const filename = "big-file.txt";
+const filename = "largeFile.csv";
 
 
 async function main() {

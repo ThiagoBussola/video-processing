@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev src/index.ts",
-    "dev": "ts-node-dev src/teste.ts"
+    "dev": "ts-node-dev src/teste.ts",
+    "g:csv": "node scripts/create-csv-node.js",
+    "csv:reader": "ts-node-dev src/spreadsheet/csv-reader.ts",
+    "csv:transform": "ts-node-dev src/spreadsheet/csv-transform.ts"
   },
   "keywords": [],
   "author": "",
