@@ -19,7 +19,7 @@ uploadRouter.post('/upload', async(req: Request, res: Response) => {
   ensureUploadDirectoryExists();
 
   const fileName = req.headers['file-name'] as string;
-  
+
   if (!fileName) {
     return res.status(400).send('File name header is missing.');
   }
@@ -47,8 +47,8 @@ uploadRouter.get('/videos', async(req: Request, res: Response) => {
     descricao: 'Descrição do vídeo',
 
   }));
-  
-  console.log(videos); 
+
+  console.log(videos);
   res.status(200).json( videos );
 });
 export default uploadRouter;

@@ -13,7 +13,7 @@ uploadRouter.post('/stream-upload', async (req: Request, res: Response) => {
     ensureDirectoryExists(uploadDirectory);
 
     const fileName = req.headers['file-name'] as string;
-    
+
     if (!fileName) {
         return res.status(400).send('File name header is missing.');
     }
@@ -32,17 +32,17 @@ uploadRouter.post('/stream-upload', async (req: Request, res: Response) => {
 
 uploadRouter.get('/videos', async(req: Request, res: Response) => {
     ensureDirectoryExists(uploadDirectory);
-  
+
     const files=await readdir(uploadDirectory);
     const videos =  files.map(file => ({
       url: `http://localhost:3000/uploads/${file}`,
       // "url": "https://www.youtube.com/embed/y8FeZMv37WU",
       titulo: file,
       descricao: 'Descrição do vídeo',
-  
+
     }));
-    
-    console.log(videos); 
+
+    console.log(videos);
     res.status(200).json( videos );
   });
 
