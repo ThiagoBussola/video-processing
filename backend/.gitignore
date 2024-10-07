@@ -1,2 +1,6 @@
 /node_modules
 *.mov
+/backend/src/largeFile.csv
+/backend/src/largeFileShell.csv
+/backend/src/uploads/*
+/backend/src/processed/*

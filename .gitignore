@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 backend/node_modules
 backend/src/largeFile.csv
 backend/src/uploads/*
