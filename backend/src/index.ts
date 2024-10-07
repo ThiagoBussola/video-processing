@@ -1,5 +1,5 @@
 import express from 'express';
-import uploadRouter from './upload';
+import uploadRouter from './video-processing/upload';
 import path from 'path';
 import cors from "cors";
 
