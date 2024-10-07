@@ -1,9 +1,9 @@
-const fs = require('fs');
-const crypto = require('crypto');
-const {Readable} = require('stream');
+const fs = require("fs");
+const crypto = require("crypto");
+const { Readable } = require("stream");
 
 const targetSize = 2 * 1024 * 1024 * 1024; // 2GB
-const outputFile = 'largeFile.csv';
+const outputFile = "largeFile.csv";
 
 class CSVGenerator extends Readable {
   constructor(options) {
@@ -17,10 +17,10 @@ class CSVGenerator extends Readable {
       return;
     }
 
-    const id = crypto.randomBytes(4).toString('hex');
+    const id = crypto.randomBytes(4).toString("hex");
     const value = Math.random() * 100000;
     const timestamp = new Date().toISOString();
-    const description = 'Randomly generated CSV row';
+    const description = "Randomly generated CSV row";
 
     const row = `${id},${value},${timestamp},${description}\n`;
     this.bytesWritten += Buffer.byteLength(row);
@@ -28,17 +28,17 @@ class CSVGenerator extends Readable {
   }
 }
 
-console.time('CSV Generation');
+console.time("CSV Generation");
 
 const writeStream = fs.createWriteStream(outputFile);
-writeStream.write('id,value,timestamp,description\n'); // CSV header
+writeStream.write("id,value,timestamp,description\n"); // CSV header
 
 const csvGenerator = new CSVGenerator();
 
 csvGenerator.pipe(writeStream);
 
-csvGenerator.on('end', () => {
+csvGenerator.on("end", () => {
   writeStream.end();
-  console.timeEnd('CSV Generation');
+  console.timeEnd("CSV Generation");
   console.log(`File created with size: ${fs.statSync(outputFile).size} bytes`);
 });
