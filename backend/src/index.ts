@@ -1,5 +1,6 @@
 import express from 'express';
-import uploadRouter from './video-processing/upload';
+import uploadRouter from './video-service/upload';
+import streamRouter from './video-service/stream';
 import path from 'path';
 import cors from "cors";
 
@@ -10,7 +11,8 @@ app.use(cors({
   origin: '*',
 }));
 app.use(express.json());
-app.use('/api', uploadRouter);
+app.use(uploadRouter);
+app.use(streamRouter)
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.listen(port, () => {

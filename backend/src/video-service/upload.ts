@@ -3,20 +3,25 @@ import path from 'path';
 import fs from 'fs';
 import { pipeline } from 'stream';
 import { readdir } from 'node:fs/promises';
+import { ensureDirectoryExists } from '../utils/util';
 
 
 const uploadRouter = Router();
 const uploadDirectory = path.join(__dirname, '..', 'uploads');
-console.log(uploadDirectory);
 
-const ensureUploadDirectoryExists = () => {
-  if (!fs.existsSync(uploadDirectory)) {
-    fs.mkdirSync(uploadDirectory, { recursive: true });
-  }
-};
+// async function getVideosMetadata() {
+//   const files = await readdir(uploadDirectory);
+//   const videos = files.map(file => ({
+//     url: `http://localhost:3000/uploads/${file}`,
+//     titulo: file,
+//     descricao: 'Descrição do vídeo',
+//     thumbnail: 'http://localhost:3000/uploads/thumbnail.png',
+//   }));
+//   return videos;
+// }
 
 uploadRouter.post('/upload', async(req: Request, res: Response) => {
-  ensureUploadDirectoryExists();
+  ensureDirectoryExists(uploadDirectory);
 
   const fileName = req.headers['file-name'] as string;
   
@@ -36,19 +41,18 @@ uploadRouter.post('/upload', async(req: Request, res: Response) => {
   });
 });
 
-uploadRouter.get('/videos', async(req: Request, res: Response) => {
-  ensureUploadDirectoryExists();
+uploadRouter.get('/videos', async (req: Request, res: Response) => {
+  ensureDirectoryExists(uploadDirectory);
 
-  const files=await readdir(uploadDirectory);
-  const videos =  files.map(file => ({
+  const files = await readdir(uploadDirectory);
+  const videos = files.map(file => ({
     url: `http://localhost:3000/uploads/${file}`,
-    // "url": "https://www.youtube.com/embed/y8FeZMv37WU",
     titulo: file,
     descricao: 'Descrição do vídeo',
-
+    thumbnail: 'http://localhost:3000/uploads/thumbnail.png',
   }));
-  
-  console.log(videos); 
-  res.status(200).json( videos );
+
+  console.log(videos);
+  res.status(200).json(videos);
 });
 export default uploadRouter;

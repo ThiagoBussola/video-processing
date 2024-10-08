@@ -1,28 +1,22 @@
-curl -X POST http://localhost:3000/stream-upload \
+# curl do upload
+
+curl -X POST http://localhost:3000/upload \
   -H "file-name: large-video" \
   --data-binary "@/home/bussola/Workspace/Alura/streams-01/stream/backend/large-video.mp4"
 
+curl -X POST http://localhost:3000/upload \
+  -H "file-name: video-sample.mkv" \
+  --data-binary "@/home/bussola/Workspace/Alura/streams-01/stream/backend/video-sample.mkv"
 
-curl -X GET http://localhost:3000/process-video-avi/home/bussola/Workspace/Alura/streams-01/stream/backend/src/uploads/Big_Buck_Bunny_1080_10s_1MB.mkv -o converted_video.avi
 
 
+# list videos
 
-ffmpeg(inputPath)
-        .output(outputPath)
-        .on('end', () => {
-            res.download(outputPath, (err) => {
-                if (err) {
-                    console.error('Download error:', err);
-                    return res.status(500).json({ message: 'Failed to download processed video.' });
-                }
-                // Optionally delete the processed file after download
-                fs.unlink(outputPath, (unlinkErr) => {
-                    if (unlinkErr) console.error('Error deleting processed file:', unlinkErr);
-                });
-            });
-        })
-        .on('error', (err) => {
-            console.error('FFmpeg error:', err.message);
-            res.status(500).json({ message: 'Video processing failed.' });
-        })
-        .run();
+curl -X GET http://localhost:3000/videos
+
+# curl da stream
+
+curl -H "Range: bytes=0-" http://localhost:3000/video/video-sample.mkv
+
+curl -X GET http://localhost:3000/stream/video/sample.mkv -o streamed_video.mp4
+
