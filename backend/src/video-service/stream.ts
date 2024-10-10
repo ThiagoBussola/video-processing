@@ -2,52 +2,65 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import fs from 'fs';
 import { fileExists } from '../utils/util';
+import { spawn } from 'child_process';
 
 const streamRouter = express.Router();
-const uploadDirectory = path.join(__dirname, '..', 'uploads');
 
-streamRouter.get('/video/:filename', async (req: Request, res: Response) => {
-    const { filename } = req.params;
-    const videoPath = path.join(uploadDirectory, filename);
+// Define the directory where uploaded videos are stored
+const uploadDirectory = path.resolve(__dirname, '../../uploads');
 
-    console.log('videoPath: '+ videoPath);
+/**
+ * GET /video/:filename
+ * Streams the requested video file in chunks.
+ */
+streamRouter.get('/video/:filename', (req, res) => {
+    const filePath = path.resolve(__dirname, '..', 'uploads', req.params.filename);
 
-    if (!await fileExists(videoPath)) {
-        return res.status(404).json({ message: 'Video not found' });
-    }
-
-    const stat = fs.statSync(videoPath);
-    const fileSize = stat.size;
-    const range = req.headers.range;
-
-    if (range) {
-        const [startStr, endStr] = range.replace(/bytes=/, '').split('-');
-        const start = parseInt(startStr, 10);
-        const end = endStr ? parseInt(endStr, 10) : fileSize - 1;
-
-        if (start >= fileSize || end >= fileSize) {
-            return res.status(416).json({ message: 'Requested range not satisfiable' });
+    // Check if file exists
+    fs.stat(filePath, (err, stats) => {
+        if (err) {
+            console.error('File not found:', err);
+            return res.status(404).send('Video not found');
         }
 
-        const chunkSize = (end - start) + 1;
-        const file = fs.createReadStream(videoPath, { start, end });
-        const headers = {
-            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-            'Accept-Ranges': 'bytes',
-            'Content-Length': chunkSize,
-            'Content-Type': 'video/mp4',
-        };
+        const range = req.headers.range;
+        const videoSize = stats.size;
 
-        res.writeHead(206, headers);
-        file.pipe(res);
-    } else {
-        const headers = {
-            'Content-Length': fileSize,
-            'Content-Type': 'video/mp4',
-        };
-        res.writeHead(200, headers);
-        fs.createReadStream(videoPath).pipe(res);
-    }
+        if (range) {
+            const CHUNK_SIZE = 10 ** 6; // 1MB
+            const start = Number(range.replace(/\D/g, ''));
+            const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+            const contentLength = end - start + 1;
+            const headers = {
+                'Content-Range': `bytes ${start}-${end}/${videoSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': contentLength,
+                'Content-Type': 'video/mp4',
+            };
+
+            const ffmpegProcess = spawn('ffmpeg', [
+                '-i', 'pipe:0',
+                '-vcodec', 'h264',
+                '-acodec', 'aac',
+                '-movflags', 'frag_keyframe+empty_moov+default_base_moof',
+                '-b:v', '1500k',
+                '-maxrate', '1500k',
+                '-bufsize', '1000k',
+                '-f', 'mp4',
+                'prepared-sample.mp4'
+            ])
+            const videoStream = fs.createReadStream(filePath, { start, end });
+            videoStream.pipe(res);
+        } else {
+            // No Range header; serve the entire video
+            const headers = {
+                'Content-Length': videoSize,
+                'Content-Type': 'video/mp4',
+            };
+            res.writeHead(200, headers);
+            fs.createReadStream(filePath).pipe(res);
+        }
+    });
 });
-
 export default streamRouter;

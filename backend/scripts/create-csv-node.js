@@ -13,7 +13,7 @@ class CSVGenerator extends Readable {
 
   _read() {
     if (this.bytesWritten >= targetSize) {
-      this.push(null); // End of stream
+      this.push(null);
       return;
     }
 
@@ -31,7 +31,7 @@ class CSVGenerator extends Readable {
 console.time('CSV Generation');
 
 const writeStream = fs.createWriteStream(outputFile);
-writeStream.write('id,value,timestamp,description\n'); // CSV header
+writeStream.write('id,value,timestamp,description\n');
 
 const csvGenerator = new CSVGenerator();
 

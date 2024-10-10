@@ -26,6 +26,11 @@ async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: st
       },
     });
 
+    //print each transformed line when its processed
+    transformStream.on('data', (chunk: string) => {
+      console.log(chunk);
+    });
+
     await pipeline(
       lineReader,
       transformStream,

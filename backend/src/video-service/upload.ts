@@ -5,20 +5,8 @@ import { pipeline } from 'stream';
 import { readdir } from 'node:fs/promises';
 import { ensureDirectoryExists } from '../utils/util';
 
-
 const uploadRouter = Router();
 const uploadDirectory = path.join(__dirname, '..', 'uploads');
-
-// async function getVideosMetadata() {
-//   const files = await readdir(uploadDirectory);
-//   const videos = files.map(file => ({
-//     url: `http://localhost:3000/uploads/${file}`,
-//     titulo: file,
-//     descricao: 'Descrição do vídeo',
-//     thumbnail: 'http://localhost:3000/uploads/thumbnail.png',
-//   }));
-//   return videos;
-// }
 
 uploadRouter.post('/upload', async(req: Request, res: Response) => {
   ensureDirectoryExists(uploadDirectory);
