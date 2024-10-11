@@ -16,8 +16,9 @@ export const fileExists = async (filePath: string): Promise<boolean> => {
     }
 };
 
-export const uploadDirectory = path.resolve(__dirname, '..', 'uploads');
-export const processedDirectory = path.resolve(__dirname, '..', 'processed');
+
+export const uploadDirectory = path.resolve(__dirname, '../../uploads');
+export const processedDirectory = path.resolve(__dirname, '../../processed');
 
 ensureDirectoryExists(uploadDirectory);
 ensureDirectoryExists(processedDirectory);

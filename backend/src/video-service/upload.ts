@@ -3,28 +3,27 @@ import path from 'path';
 import fs from 'fs';
 import { pipeline } from 'stream';
 import { readdir } from 'node:fs/promises';
-import { ensureDirectoryExists } from '../utils/util';
+import { ensureDirectoryExists, uploadDirectory } from '../utils/util';
 
 const uploadRouter = Router();
-const uploadDirectory = path.join(__dirname, '..', 'uploads');
 
-uploadRouter.post('/upload', async(req: Request, res: Response) => {
+uploadRouter.post('/upload/:fileName', (req: Request, res: Response) => {
   ensureDirectoryExists(uploadDirectory);
 
-  const fileName = req.headers['file-name'] as string;
+  const fileName = req.params.fileName;
   
   if (!fileName) {
-    return res.status(400).send('File name header is missing.');
+      return res.status(400).send('File name header is missing.');
   }
 
   const filePath = path.join(uploadDirectory, fileName);
   const writeStream = fs.createWriteStream(filePath);
 
   pipeline(req, writeStream, (err) => {
-    if (err) {
-      console.error('Pipeline failed.', err);
-      return res.status(500).send('File upload failed.');
-    }
+      if (err) {
+          console.error('Pipeline failed.', err);
+          return res.status(500).send('File upload failed.');
+      }
     res.status(200).send(`File uploaded successfully: ${fileName}`);
   });
 });
