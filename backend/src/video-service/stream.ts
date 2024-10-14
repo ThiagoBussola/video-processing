@@ -23,8 +23,11 @@ streamRouter.get('/video/:filename', (req: Request, res: Response) => {
             '-i', filePath,
             '-vcodec', 'libx264',
             '-acodec', 'aac',
-            '-f', 'mp4',
             '-movflags', 'frag_keyframe+empty_moov+default_base_moof',
+            '-b:v', '1500k',
+            '-maxrate', '1500k',
+            '-bufsize', '1000k',
+            '-f', 'mp4',
             'pipe:1' 
         ]);
 

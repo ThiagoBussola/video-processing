@@ -7,6 +7,18 @@ curl -X POST http://localhost:3000/upload \
 curl -X POST http://localhost:3000/upload/video-sample.mp4 \
   -T /home/alura/Workspace/Alura/streams-video-processing/backend/video-sample.mp4
 
+curl -X POST http://localhost:3000/upload/prepared-sample.mp4 \
+  -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-sample.mp4
+
+curl -X POST http://localhost:3000/upload/Gojira-Stranded.mp4 \
+  -T /home/alura/Workspace/Alura/streams-video-processing/backend/Gojira-Stranded.mp4
+
+curl -X POST http://localhost:3000/upload/prepared-gojira-stranded.mp4 \
+  -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-gojira-stranded.mp4
+
+
+  curl -X POST http://localhost:3000/upload/prepared-stranded-cut.mp4 \
+  -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-stranded-cut.mp4
 
 
 # list videos

@@ -5,7 +5,7 @@ import cors from "cors";
 import { uploadDirectory } from './utils/util';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   origin: '*',
