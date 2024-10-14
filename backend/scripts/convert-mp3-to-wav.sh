@@ -9,7 +9,7 @@ base_name=$(basename "$input_mp3_file" .mp3)
 output_wav_file="$output_directory/${base_name}.wav"
 
 # Convert mp3 to wav using FFmpeg
-ffmpeg -i "$input_mp3_file" "$output_wav_file"
+ffmpeg -i "$input_mp3_file" -ac 1 "$output_wav_file"
 
 if [ $? -eq 0 ]; then
   echo "Conversion successful: $output_wav_file"
