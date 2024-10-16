@@ -17,8 +17,8 @@ curl -X POST http://localhost:3000/upload/prepared-gojira-stranded.mp4 \
   -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-gojira-stranded.mp4
 
 
-  curl -X POST http://localhost:3000/upload/prepared-stranded-cut.mp4 \
-  -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-stranded-cut.mp4
+  curl -X POST http://localhost:3000/upload/prepared-alura-aula.mp4 \
+  -T /home/alura/Workspace/Alura/streams-video-processing/backend/prepared-alura-aula.mp4
 
 
 # list videos
@@ -28,4 +28,6 @@ curl -X GET http://localhost:3000/videos
 # curl da stream
 
 curl  -X GET http://localhost:3000/video/prepared-sample.mp4 --output output_video.mp4
+
+curl  -X GET http://localhost:3000/video/prepared-alura-aula.mp4 --output output_video.mp4
 

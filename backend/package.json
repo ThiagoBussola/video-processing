@@ -8,7 +8,7 @@
     "dev": "ts-node-dev src/teste.ts",
     "g:csv": "node scripts/create-csv-node.js",
     "csv:transform": "ts-node-dev src/spreadsheet/csv-transform.ts",
-    "whisper": "ts-node-dev src/video-service/whisper.ts"
+    "whisper": "ts-node-dev src/video-service/whisper-stream.ts"
   },
   "keywords": [],
   "author": "",
