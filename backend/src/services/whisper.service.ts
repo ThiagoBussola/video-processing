@@ -8,7 +8,7 @@ import {
   CancellationReason,
 } from "microsoft-cognitiveservices-speech-sdk";
 import dotenv from "dotenv";
-import { uploadDirectory } from "../utils/util";
+import { uploadDirectory } from "../utils/helper";
 
 dotenv.config();
 

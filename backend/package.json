@@ -2,10 +2,9 @@
   "name": "stream",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "start": "ts-node-dev src/index.ts",
-    "dev": "ts-node-dev src/teste.ts",
+    "start": "ts-node-dev src/server.ts",
     "g:csv": "node scripts/create-csv-node.js",
     "csv:transform": "ts-node-dev src/spreadsheet/csv-transform.ts",
     "whisper": "ts-node-dev src/video-service/whisper-stream.ts"

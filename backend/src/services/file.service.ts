@@ -1,17 +1,25 @@
-import { createReadStream, createWriteStream } from "node:fs";
+import { createReadStream, createWriteStream, promises } from "node:fs";
 import { createInterface } from "node:readline";
 import { Transform } from "node:stream";
 import { pipeline } from "node:stream/promises";
 
+async function brokenApp() {
+  const filename = "largeFile.csv";
+  await promises.readFile(filename);
+}
+
 function transformCsvLine(line: string): string {
-  const parts = line.split(',');
+  const parts = line.split(",");
   if (parts.length === 4) {
     parts[3] = parts[3].trim().toUpperCase();
   }
-  return parts.join(',') + '\n';
+  return parts.join(",") + "\n";
 }
 
-async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: string): Promise<void> {
+async function processCsvFileUpperCase(
+  inputFilePath: string,
+  outputFilePath: string
+): Promise<void> {
   console.time("csv-processing");
 
   try {
@@ -27,15 +35,11 @@ async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: st
     });
 
     //print each transformed line when its processed
-    transformStream.on('data', (chunk: string) => {
+    transformStream.on("data", (chunk: string) => {
       console.log(chunk);
     });
 
-    await pipeline(
-      lineReader,
-      transformStream,
-      writeStream
-    );
+    await pipeline(lineReader, transformStream, writeStream);
 
     console.log("CSV processing completed");
   } catch (error) {
@@ -44,6 +48,8 @@ async function processCsvFileUpperCase(inputFilePath: string, outputFilePath: st
     console.timeEnd("csv-processing");
   }
 }
+
+//brokenApp()
 
 const inputFile = "./largeFile.csv";
 const outputFile = "./largeFile-uppercase.csv";
